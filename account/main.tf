@@ -12,8 +12,8 @@ resource "random_string" "string" {
 }
 
 
-resource "google_project" "class4" {
-  name            = "class4"
+resource "google_project" "gcpproject" {
+  name            = "GCP Project"
   project_id      = random_string.string.result
   billing_account = data.google_billing_account.acct.id
 }
@@ -25,6 +25,6 @@ resource "null_resource" "set-project" {
   }
 
   provisioner "local-exec" {
-    command = "gcloud config set project ${google_project.class4.project_id}"
+    command = "gcloud config set project ${google_project.gcpproject.project_id}"
   }
 }
