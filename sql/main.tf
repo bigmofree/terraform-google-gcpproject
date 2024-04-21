@@ -7,7 +7,7 @@ resource "google_sql_database_instance" "sqlinstance" {
 }
 
 # Creating DB user
-resource "google_sql_user" "user" {
+resource "google_sql_user" "users" {
   name     = "oleksii"
   instance = google_sql_database_instance.sqlinstance.name
 }
