@@ -1,10 +1,15 @@
 #Adding autoscaling group in a zone specified in the variables file using an instance group manager as a target
-resource "google_compute_autoscaler" "default" {
-  provider = google-beta
 
+
+provider "google" {
+  project = "your-project-id"
+  region  = "us-central1"
+}
+
+resource "google_compute_autoscaler" "default" {
   name   = "my-autoscaler"
   zone   = "us-central1-f"
-  target = google_compute_instance_group_manager.default.id
+  target = google_compute_instance_group_manager.p-igm.id
 
   autoscaling_policy {
     max_replicas    = 3
@@ -14,8 +19,6 @@ resource "google_compute_autoscaler" "default" {
 }
 
 resource "google_compute_instance_template" "default" {
-  provider = google-beta
-
   name           = "my-instance-template"
   machine_type   = "e2-medium"
   can_ip_forward = false
@@ -28,22 +31,14 @@ resource "google_compute_instance_template" "default" {
     network = google_compute_network.global_vpc.name
   }
 
-  metadata_startup_script = file(wordpress.sh)
+  metadata_startup_script = file("wordpress.sh")
 
   service_account {
     scopes = ["userinfo-email", "compute-ro", "storage-ro"]
   }
 }
 
-resource "google_compute_target_pool" "default" {
-  provider = google-beta
-
-  name = "my-target-pool"
-}
-
-resource "google_compute_instance_group_manager" "p-igm" {
-  provider = google-beta
-
+resource "google_compute_instance_group_manager" "default" {
   name = "my-igm"
   zone = "us-central1-f"
 
@@ -57,9 +52,10 @@ resource "google_compute_instance_group_manager" "p-igm" {
 }
 
 data "google_compute_image" "debian_9" {
-  provider = google-beta
-
-  family  = "debian-11"
+  family  = "debian-9"
   project = "debian-cloud"
 }
 
+resource "google_compute_target_pool" "default" {
+  name = "my-target-pool"
+}
