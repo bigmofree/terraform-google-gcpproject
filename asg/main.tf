@@ -41,7 +41,7 @@ resource "google_compute_target_pool" "default" {
   name = "my-target-pool"
 }
 
-resource "google_compute_instance_group_manager" "default" {
+resource "google_compute_instance_group_manager" "pigm" {
   provider = google-beta
 
   name = "my-igm"
