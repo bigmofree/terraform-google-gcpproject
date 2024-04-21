@@ -19,7 +19,7 @@ resource "google_compute_autoscaler" "default" {
 }
 
 resource "google_compute_instance_template" "template" {
-  provider = google-beta
+  provider = google
 
   name           = "my-instance-template"
   machine_type   = "e2-medium"
@@ -46,8 +46,6 @@ resource "google_compute_target_pool" "tg" {
 }
 
 resource "google_compute_instance_group_manager" "p-igm" {
-  provider = google-beta
-
   name = "my-igm"
   zone = "us-central1-f"
 
