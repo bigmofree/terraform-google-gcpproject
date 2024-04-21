@@ -13,7 +13,7 @@ resource "google_compute_autoscaler" "default" {
   }
 }
 
-resource "google_compute_instance_template" "default" {
+resource "google_compute_instance_template" "template" {
   provider = google-beta
 
   name           = "my-instance-template"
@@ -28,14 +28,14 @@ resource "google_compute_instance_template" "default" {
     network = google_compute_network.global_vpc.name
   }
 
-  metadata_startup_script = file(wordpress.sh)
+  
 
   service_account {
     scopes = ["userinfo-email", "compute-ro", "storage-ro"]
   }
 }
 
-resource "google_compute_target_pool" "default" {
+resource "google_compute_target_pool" "tg" {
   provider = google-beta
 
   name = "my-target-pool"
@@ -48,11 +48,11 @@ resource "google_compute_instance_group_manager" "p-igm" {
   zone = "us-central1-f"
 
   version {
-    instance_template = google_compute_instance_template.default.id
+    instance_template = google_compute_instance_template.template.id
     name              = "primary"
   }
 
-  target_pools       = [google_compute_target_pool.default.id]
+  target_pools       = [google_compute_target_pool.tg.id]
   base_instance_name = "autoscaler-sample"
 }
 
