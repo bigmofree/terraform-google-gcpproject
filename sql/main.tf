@@ -17,3 +17,4 @@ resource "google_sql_database" "sqldatabase" {
   name     = "wordpress"
   instance = google_sql_database_instance.sqlinstance.name
 }
+
