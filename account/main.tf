@@ -20,7 +20,7 @@ resource “random_password” “password” {
 }
 #  creates project
 resource “google_project” “testproject” {
-  name            = “testproject”
+  name            = “gcp project”
   project_id      = random_password.password.result
   billing_account = data.google_billing_account.acct.id
 }
@@ -34,7 +34,7 @@ resource “null_resource” “set-project” {
     always_run = “${timestamp()}”
   }
   provisioner “local-exec” {
-    command = “gcloud config set project ${google_project.testproject.project_id}”
+    command = “gcloud config set project gcp project”
   }
 }
 
