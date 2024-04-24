@@ -2,7 +2,7 @@
 
 
 provider "google" {
-  project = "your-project-id"
+  project = "gcp project"
   region  = "us-central1"
 }
 
@@ -41,7 +41,6 @@ resource "google_compute_instance_template" "template" {
 
 resource "google_compute_target_pool" "tg" {
   provider = google-beta
-
   name = "my-target-pool"
 }
 
