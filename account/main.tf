@@ -37,36 +37,15 @@ resource “null_resource” “set-project” {
     command = “gcloud config set project ${google_project.testproject.project_id}”
   }
 }
-#  no need for this one , using anpther block of code
-# resource “null_resource” “enable-apis” {
-#   depends_on = [
-#     google_project.testproject,
-#     null_resource.set-project
-#   ]
-#   triggers = {
-#     always_run = “${timestamp()}”
-#   }
-#   provisioner “local-exec” {
-#     command = <<-EOT
-#         gcloud services enable compute.googleapis.com
-#         gcloud services enable dns.googleapis.com
-#         gcloud services enable storage-api.googleapis.com
-#         gcloud services enable container.googleapis.com
-#         gcloud services enable file.googleapis.com
-#     EOT
-#   }
-# }
-# resource “google_project_service” “project1” resource.google_project_service.project1
-# e {
-# nable apis
+
+# enable apis
 resource “google_project_service” “project” {
   count = length(var.apis)
-  # project = “your-project-id”
+}
+
+# project = “your-project-id”
   service = var.apis[count.index]
-  # timeouts {
-  #   create = “30m”
-  #   update = “40m”
-  # }
+
   disable_dependent_services = true
     depends_on = [
     google_project.testproject,
