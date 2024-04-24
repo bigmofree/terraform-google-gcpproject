@@ -56,7 +56,7 @@ resource "google_project_service" "project" {
   disable_dependent_services = true
 
   depends_on = [
-    google_project.testproject,
+    google_project.terraform-google-gcpproject,
     null_resource.set-project
   ]
 }
